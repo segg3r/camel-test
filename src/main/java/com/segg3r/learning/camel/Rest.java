@@ -12,6 +12,7 @@ public class Rest extends RouteBuilder {
     @Override
     public void configure() {
         restConfiguration()
+                .contextPath("/api")
                 .apiContextPath("/api-doc")
                 .apiProperty("api.title", "Camel REST API")
                 .apiProperty("api.version", "1.0")
@@ -22,12 +23,16 @@ public class Rest extends RouteBuilder {
                 .bindingMode(RestBindingMode.json)
                 .post()
                         .type(InputMessage.class)
+                        .responseMessage()
+                                .code(200)
+                                .message("If message is successfully sent")
+                                .endResponseMessage()
                         .route()
-                        .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
-                        .transform()
-                        .simple("${body.text}")
-                        .log("Received message ${body}")
-                        .to("jms:queue:messages")
+                                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
+                                .transform()
+                                .simple("${body.text}")
+                                .log("Received message ${body}")
+                                .to("jms:queue:messages")
         .endRest();
     }
 

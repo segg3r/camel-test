@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: camelDemo
+  artemis:
+    user: admin
+    password: admin
+    host: localhost
+    port: 61616
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'mappings'

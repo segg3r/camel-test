@@ -1,0 +1,46 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id "io.freefair.lombok" version "6.0.0-m2"
+}
+
+group = 'com.segg3r.learning'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+def springBootVersion = '2.4.5'
+def camelSpringBootIntegrationVersion = '3.0.0-M4'
+def jacksonVersion = '2.11.3'
+def javaxActivationVersion = '1.1'
+def jaxbVersion = '2.3.0'
+def swaggerVersion = '1.6.2'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+	implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+	implementation "org.apache.camel:camel-spring-boot-starter:${camelSpringBootIntegrationVersion}"
+
+	implementation "org.apache.camel:camel-servlet:${camelSpringBootIntegrationVersion}"
+	implementation "org.apache.camel:camel-jackson:${camelSpringBootIntegrationVersion}"
+	implementation "org.apache.camel:camel-swagger-java:${camelSpringBootIntegrationVersion}"
+	implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+	implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
+	implementation "org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}"
+	implementation "javax.xml.bind:jaxb-api:${jaxbVersion}"
+	implementation "io.swagger:swagger-core:${swaggerVersion}"
+
+	implementation "org.apache.camel:camel-jms:${camelSpringBootIntegrationVersion}"
+	implementation "org.apache.activemq:artemis-jms-client"
+	implementation "javax.activation:activation:${javaxActivationVersion}"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useTestNG()
+}

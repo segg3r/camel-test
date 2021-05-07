@@ -38,6 +38,9 @@ dependencies {
 	implementation "org.apache.activemq:artemis-jms-client"
 	implementation "javax.activation:activation:${javaxActivationVersion}"
 
+	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '18.3.0.0'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

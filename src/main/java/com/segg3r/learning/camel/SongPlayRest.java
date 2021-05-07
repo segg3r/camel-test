@@ -1,13 +1,13 @@
 package com.segg3r.learning.camel;
 
-import com.segg3r.learning.camel.model.InputMessage;
+import com.segg3r.learning.camel.model.SongPlay;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Rest extends RouteBuilder {
+public class SongPlayRest extends RouteBuilder {
 
     @Override
     public void configure() {
@@ -18,21 +18,22 @@ public class Rest extends RouteBuilder {
                 .apiProperty("api.version", "1.0")
                 .component("servlet");
 
-        rest("/message")
+        rest("/song_play")
                 .consumes("application/json")
                 .bindingMode(RestBindingMode.json)
                 .post()
-                        .type(InputMessage.class)
+                        .type(SongPlay.class)
                         .responseMessage()
                                 .code(200)
                                 .message("If message is successfully sent")
                                 .endResponseMessage()
                         .route()
                                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
+                                .log("REST sent a new song play: ${body.toString()}")
                                 .transform()
-                                .simple("${body.text}")
-                                .log("Received message ${body}")
-                                .to("jms:queue:messages")
+                                .body(SongPlay.class)
+                                .log("Sending to a queue: ${body.toString()}")
+                                .to("jms:queue:song_plays")
         .endRest();
     }
 

@@ -6,6 +6,14 @@ spring:
     password: admin
     host: localhost
     port: 61616
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/song_pdb
+    username: camel
+    password: camel_password
+    driver-class-name: oracle.jdbc.driver.OracleDriver
 
 server:
   port: 8080

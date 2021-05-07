@@ -4,10 +4,20 @@ import com.segg3r.learning.camel.model.SongPlay;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class SongPlayRest extends RouteBuilder {
+
+    private final SongPlayRepository songPlayRepository;
+
+    @Autowired
+    public SongPlayRest(SongPlayRepository songPlayRepository) {
+        this.songPlayRepository = songPlayRepository;
+    }
 
     @Override
     public void configure() {
@@ -20,6 +30,7 @@ public class SongPlayRest extends RouteBuilder {
 
         rest("/song_play")
                 .consumes("application/json")
+                .produces("application/json")
                 .bindingMode(RestBindingMode.json)
                 .post()
                         .type(SongPlay.class)
@@ -34,7 +45,18 @@ public class SongPlayRest extends RouteBuilder {
                                 .body(SongPlay.class)
                                 .log("Sending to a queue: ${body.toString()}")
                                 .to("jms:queue:song_plays")
-        .endRest();
+                        .endRest()
+                .get()
+                        .responseMessage()
+                                .code(200)
+                                .message("If could return a list of messages")
+                                .endResponseMessage()
+                        .route()
+                                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
+                                .log("REST sent a new song play: ${body.toString()}")
+                                .transform()
+                                .body(songPlayRepository::findAll)
+                        .endRest();
     }
 
 }

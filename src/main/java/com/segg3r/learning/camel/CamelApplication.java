@@ -1,13 +1,15 @@
 package com.segg3r.learning.camel;
 
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
+import org.quartz.SchedulerException;
+import org.quartz.core.QuartzScheduler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-
-import javax.servlet.Servlet;
+import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 public class CamelApplication {

@@ -15,6 +15,7 @@ def jacksonVersion = '2.11.3'
 def javaxActivationVersion = '1.1'
 def jaxbVersion = '2.3.0'
 def swaggerVersion = '1.6.2'
+def oracleDbVersion = '18.3.0.0'
 
 repositories {
 	mavenCentral()
@@ -39,7 +40,10 @@ dependencies {
 	implementation "javax.activation:activation:${javaxActivationVersion}"
 
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc8', version: '18.3.0.0'
+	implementation "com.oracle.database.jdbc:ojdbc8:${oracleDbVersion}"
+
+	implementation "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
+	implementation "org.apache.camel:camel-quartz2-starter:${camelSpringBootIntegrationVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

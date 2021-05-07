@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: camelDemo
@@ -9,21 +12,24 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   datasource:
     url: jdbc:oracle:thin:@localhost:1521/song_pdb
     username: camel
     password: camel_password
     driver-class-name: oracle.jdbc.driver.OracleDriver
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+    auto-startup: false
+    properties:
+      org:
+        quartz:
+          jobStore:
+            isClustered: true
 
-server:
-  port: 8080
-
-logging:
-  level:
-    root: INFO
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: 'mappings'
+camel:
+  component:
+    quartz2:
+      scheduler: "quartzScheduler"

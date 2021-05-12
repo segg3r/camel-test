@@ -28,6 +28,9 @@ spring:
         quartz:
           jobStore:
             isClustered: true
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
 
 camel:
   component:

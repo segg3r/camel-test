@@ -18,4 +18,6 @@ public class SongPlay implements Serializable {
     private long songId;
     @Column(name = "duration_ms")
     private long durationMs;
+    @Column(name = "review_text")
+    private String reviewText;
 }

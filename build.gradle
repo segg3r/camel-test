@@ -16,6 +16,8 @@ def javaxActivationVersion = '1.1'
 def jaxbVersion = '2.3.0'
 def swaggerVersion = '1.6.2'
 def oracleDbVersion = '18.3.0.0'
+def ehcacheVersion = '3.8.1'
+def log4jVersion = '2.14.1'
 
 repositories {
 	mavenCentral()
@@ -44,6 +46,13 @@ dependencies {
 
 	implementation "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
 	implementation "org.apache.camel:camel-quartz2-starter:${camelSpringBootIntegrationVersion}"
+
+	implementation "org.springframework.boot:spring-boot-starter-cache:${springBootVersion}"
+	implementation "javax.cache:cache-api:1.1.1"
+	implementation "org.ehcache:ehcache:${ehcacheVersion}"
+
+	implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
+	implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

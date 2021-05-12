@@ -11,7 +11,7 @@ spring:
     port: 61616
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   datasource:
     url: jdbc:oracle:thin:@localhost:1521/song_pdb
@@ -21,7 +21,7 @@ spring:
   quartz:
     job-store-type: jdbc
     jdbc:
-      initialize-schema: always
+      initialize-schema: never
     auto-startup: false
     properties:
       org:
@@ -31,6 +31,12 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    baseline-version: 0
+    baseline-on-migrate: true
 
 camel:
   component:

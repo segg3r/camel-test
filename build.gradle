@@ -18,6 +18,7 @@ def swaggerVersion = '1.6.2'
 def oracleDbVersion = '18.3.0.0'
 def ehcacheVersion = '3.8.1'
 def log4jVersion = '2.14.1'
+def flywayVersion = '7.8.2'
 
 repositories {
 	mavenCentral()
@@ -43,6 +44,7 @@ dependencies {
 
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
 	implementation "com.oracle.database.jdbc:ojdbc8:${oracleDbVersion}"
+	implementation "org.flywaydb:flyway-core:${flywayVersion}"
 
 	implementation "org.springframework.boot:spring-boot-starter-quartz:${springBootVersion}"
 	implementation "org.apache.camel:camel-quartz2-starter:${camelSpringBootIntegrationVersion}"

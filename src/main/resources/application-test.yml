@@ -7,5 +7,6 @@ spring:
     password: camel_test_password
     driver-class-name: oracle.jdbc.driver.OracleDriver
   flyway:
+    reinitialize-schema: true
     placeholders:
       tablespace: "PUBLIC_PERM_TBS"

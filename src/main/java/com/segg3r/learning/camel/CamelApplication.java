@@ -21,11 +21,11 @@ public class CamelApplication {
 	}
 
 	@Bean
-	public ServletRegistrationBean servletRegistrationBean() {
+	public ServletRegistrationBean<CamelHttpTransportServlet> servletRegistrationBean() {
 		CamelHttpTransportServlet camelHttpTransportServlet = new CamelHttpTransportServlet();
 		camelHttpTransportServlet.setAsync(true);
 
-		ServletRegistrationBean registration = new ServletRegistrationBean
+		ServletRegistrationBean<CamelHttpTransportServlet> registration = new ServletRegistrationBean<>
 				(camelHttpTransportServlet, "/api/*");
 		registration.setName("CamelServlet");
 

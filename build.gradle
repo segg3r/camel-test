@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'groovy'
 	id "io.freefair.lombok" version "6.0.0-m2"
 }
 
@@ -20,6 +21,8 @@ def ehcacheVersion = '3.8.1'
 def log4jVersion = '2.14.1'
 def flywayVersion = '7.8.2'
 def junitVersion = '4.13.2'
+def spockVersion = '2.0-M5-groovy-2.5'
+def groovyVersion = '2.5.14'
 
 repositories {
 	mavenCentral()
@@ -64,8 +67,13 @@ dependencies {
 	testImplementation group: 'javax.json', name: 'javax.json-api', version: '1.1.4'
 	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 	testImplementation "org.apache.activemq:artemis-jms-server"
+
+	testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
+	testImplementation group: 'org.spockframework', name: 'spock-spring', version: spockVersion
+	testImplementation group: 'org.codehaus.groovy', name: 'groovy-all', version: groovyVersion, ext: 'pom'
+
 }
 
 test {
-	useJUnit()
+	useJUnitPlatform()
 }

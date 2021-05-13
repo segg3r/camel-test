@@ -57,10 +57,13 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-core:${log4jVersion}"
 	implementation "org.apache.logging.log4j:log4j-api:${log4jVersion}"
 
+	implementation group: 'com.google.guava', name: 'guava', version: '30.1.1-jre'
+
 	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 	testImplementation "junit:junit:${junitVersion}"
 	testImplementation group: 'javax.json', name: 'javax.json-api', version: '1.1.4'
 	testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+	testImplementation "org.apache.activemq:artemis-jms-server"
 }
 
 test {

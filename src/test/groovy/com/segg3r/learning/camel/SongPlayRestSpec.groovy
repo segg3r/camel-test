@@ -13,11 +13,11 @@ import spock.lang.Specification
 class SongPlayRestSpec extends Specification {
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate testRestTemplate
     @Autowired
-    private SongPlayRepository songPlayRepository;
+    private SongPlayRepository songPlayRepository
     @Autowired
-    private Flyway flyway;
+    private Flyway flyway
 
     def cleanup() {
         flyway.clean()
@@ -26,17 +26,17 @@ class SongPlayRestSpec extends Specification {
 
     def "when song play event is posted it should then be listed"() {
         given: "payload with arbitrary fields"
-        def payload = new SongPlay();
-        payload.setSongId(1L);
-        payload.setUserId(2L);
-        payload.setDurationMs(3000L);
+        def payload = new SongPlay()
+        payload.setSongId(1L)
+        payload.setUserId(2L)
+        payload.setDurationMs(3000L)
 
         when: "song play event is sent to API"
         testRestTemplate.postForEntity("/api/song_play", payload, SongPlay.class)
 
         then: "getting list of events should contain a sent event"
         def responseEntity = testRestTemplate.getForEntity("/api/song_play", SongPlay[].class)
-        def songPlays = responseEntity.getBody();
+        def songPlays = responseEntity.getBody()
 
         expect: "Single song play event should be present"
         with(songPlays) {

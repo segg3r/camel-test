@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/song_pdb_test
+    username: camel_test
+    password: camel_test_password
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+  flyway:
+    placeholders:
+      tablespace: "PUBLIC_PERM_TBS"

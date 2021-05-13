@@ -23,11 +23,6 @@ spring:
     jdbc:
       initialize-schema: never
     auto-startup: false
-    properties:
-      org:
-        quartz:
-          jobStore:
-            isClustered: true
   cache:
     jcache:
       config: classpath:ehcache.xml
@@ -37,6 +32,9 @@ spring:
     password: ${spring.datasource.password}
     baseline-version: 0
     baseline-on-migrate: true
+    locations: classpath:db/migration/common
+    placeholders:
+      tablespace: "SONG_PDB_TBS"
 
 camel:
   component:

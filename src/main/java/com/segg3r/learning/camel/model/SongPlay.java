@@ -7,10 +7,11 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@Table(name = "SONG_PLAY")
 public class SongPlay implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "song_play_seq_generator")
-    @SequenceGenerator(sequenceName = "song_play_seq", allocationSize = 1, name = "song_play_seq_generator")
+    @SequenceGenerator(sequenceName = "SONG_PLAY_SEQ", allocationSize = 1, name = "song_play_seq_generator")
     private long id;
     @Column(name = "user_id")
     private long userId;

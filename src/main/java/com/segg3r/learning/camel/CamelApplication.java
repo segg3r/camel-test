@@ -1,5 +1,6 @@
 package com.segg3r.learning.camel;
 
+import org.apache.camel.component.bean.validator.HibernateValidationProviderResolver;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.quartz.SchedulerException;
 import org.quartz.core.QuartzScheduler;
@@ -41,6 +42,11 @@ public class CamelApplication {
 		mappingJackson2MessageConverter.setTargetType(MessageType.TEXT);
 		mappingJackson2MessageConverter.setTypeIdPropertyName("_type");
 		return mappingJackson2MessageConverter;
+	}
+
+	@Bean(name = "hibernateValidator")
+	public HibernateValidationProviderResolver hibernateValidator() {
+		return new HibernateValidationProviderResolver();
 	}
 
 }

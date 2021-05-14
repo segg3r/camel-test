@@ -5,6 +5,7 @@ import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
@@ -27,9 +28,9 @@ class SongPlayRestSpec extends Specification {
     def "when song play event is posted it should then be listed"() {
         given: "payload with arbitrary fields"
         def payload = new SongPlay()
-        payload.setSongId(1L)
-        payload.setUserId(2L)
-        payload.setDurationMs(3000L)
+        payload.songId = 1L
+        payload.userId = 2L
+        payload.durationMs = 3000L
 
         when: "song play event is sent to API"
         testRestTemplate.postForEntity("/api/song_play", payload, SongPlay.class)
@@ -52,6 +53,20 @@ class SongPlayRestSpec extends Specification {
             id > 0
             reviewText != null
         }
+    }
+
+    def "should return 400 when wrong song play is provided"() {
+        given: "payload with incorrect fields"
+        def payload = new SongPlay()
+        payload.setSongId(-100)
+        payload.setUserId(2L)
+        payload.setDurationMs(3000L)
+
+        when: "wrong song play event is sent to API"
+        def response = testRestTemplate.postForEntity("/api/song_play", payload, String.class)
+
+        then: "response code should be 400"
+        response.statusCode.value() == 400
     }
 
 }

@@ -3,6 +3,7 @@ package com.segg3r.learning.camel.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 @Data
@@ -14,10 +15,13 @@ public class SongPlay implements Serializable {
     @SequenceGenerator(sequenceName = "SONG_PLAY_SEQ", allocationSize = 1, name = "song_play_seq_generator")
     private long id;
     @Column(name = "user_id")
+    @Positive
     private long userId;
     @Column(name = "song_id")
+    @Positive
     private long songId;
     @Column(name = "duration_ms")
+    @Positive
     private long durationMs;
     @Column(name = "review_text")
     private String reviewText;

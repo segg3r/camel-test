@@ -36,6 +36,7 @@ dependencies {
 	implementation "org.apache.camel:camel-servlet:${camelSpringBootIntegrationVersion}"
 	implementation "org.apache.camel:camel-jackson:${camelSpringBootIntegrationVersion}"
 	implementation "org.apache.camel:camel-swagger-java:${camelSpringBootIntegrationVersion}"
+	implementation "org.apache.camel:camel-bean-validator-starter:${camelSpringBootIntegrationVersion}"
 	implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 	implementation "com.fasterxml.jackson.core:jackson-annotations:${jacksonVersion}"
 	implementation "org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}"

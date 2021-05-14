@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "spring.flyway.reinitialize-schema",
+      "type": "java.lang.String",
+      "description": "Whether the schema should be reinitialized from the scratch on application startup. Useful for tests."
+    }
+  ]
+}

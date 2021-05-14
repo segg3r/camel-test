@@ -11,6 +11,8 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
+import org.springframework.jms.support.converter.MessageType;
 
 @SpringBootApplication
 @EnableCaching
@@ -30,6 +32,15 @@ public class CamelApplication {
 		registration.setName("CamelServlet");
 
 		return registration;
+	}
+
+	@Bean(name = "jmsJsonMessageConverter")
+	public MappingJackson2MessageConverter mappingJackson2MessageConverter() {
+		MappingJackson2MessageConverter mappingJackson2MessageConverter
+				= new MappingJackson2MessageConverter();
+		mappingJackson2MessageConverter.setTargetType(MessageType.TEXT);
+		mappingJackson2MessageConverter.setTypeIdPropertyName("_type");
+		return mappingJackson2MessageConverter;
 	}
 
 }

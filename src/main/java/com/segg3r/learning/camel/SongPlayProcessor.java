@@ -1,5 +1,6 @@
 package com.segg3r.learning.camel;
 
+import com.segg3r.learning.camel.exception.BusinessException;
 import com.segg3r.learning.camel.model.SongPlay;
 import lombok.AllArgsConstructor;
 import org.apache.camel.builder.RouteBuilder;
@@ -16,15 +17,29 @@ public class SongPlayProcessor extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("jms:queue:song_plays")
+        onException(BusinessException.class)
+                .routeId("business_exception")
+                .handled(true)
+                .maximumRedeliveries(0)
+                .wireTap("direct:exception_jms_dead_letter_queue")
+                .end();
+
+        from("direct:exception_jms_dead_letter_queue")
+                .filter(exchange -> exchange.getIn() instanceof JmsMessage)
+                .routeId("exception_jms_dead_letter_queue")
+                .log("Sending a message to a dead letter queue: ${body.toString()}")
+                .to("jms:queue:dead?messageConverter=#jmsJsonMessageConverter")
+                .end();
+
+        from("jms:queue:song_plays?messageConverter=#jmsJsonMessageConverter")
                 .routeId("song-play-processor")
-                .log("Received a song play from a queue: ${body.toString()}, saving to a database.")
                 .process(exchange -> {
                     SongPlay songPlay = exchange.getMessage(JmsMessage.class).getBody(SongPlay.class);
                     songPlay.setReviewText(
                             songReviewTextProducer.produceSongReview(songPlay.getSongId(), songPlay.getUserId()));
-                    log.info("Extracted song play from jms queue: " + songPlay);
                     songPlayRepository.save(songPlay);
+
+                    log.info("Saved new song play: " + songPlay);
                 });
     }
 

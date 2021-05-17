@@ -1,8 +1,8 @@
 package com.segg3r.learning.camel;
 
 import com.segg3r.learning.camel.model.SongPlay;
+import com.segg3r.learning.camel.repository.SongPlayRepositoryCustom;
 import org.apache.camel.Exchange;
-import org.apache.camel.ValidationException;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.bean.validator.BeanValidationException;
 import org.apache.camel.model.rest.RestBindingMode;
@@ -15,11 +15,11 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Component
 public class SongPlayRest extends RouteBuilder {
 
-    private final SongPlayRepository songPlayRepository;
+    private final SongPlayRepositoryCustom songPlayRepositoryCustom;
 
     @Autowired
-    public SongPlayRest(SongPlayRepository songPlayRepository) {
-        this.songPlayRepository = songPlayRepository;
+    public SongPlayRest(SongPlayRepositoryCustom songPlayRepositoryCustom) {
+        this.songPlayRepositoryCustom = songPlayRepositoryCustom;
     }
 
     @Override
@@ -51,19 +51,23 @@ public class SongPlayRest extends RouteBuilder {
                         .route()
                                 .to("bean-validator://_")
                                 .log("REST sent a new song play: ${body.toString()}")
+                                .removeHeaders("Camel*")
                                 .wireTap("jms:queue:song_plays?messageConverter=#jmsJsonMessageConverter")
                                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple(String.valueOf(ACCEPTED.value())))
                                 .transform(constant(null))
                         .endRest()
-                .get()
+                .get("/user/{userId}")
                         .responseMessage()
                                 .code(200)
-                                .message("If could return a list of messages")
+                                .message("Returns a list of messages for a specific user")
                                 .endResponseMessage()
                         .route()
                                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("200"))
                                 .transform()
-                                .body(songPlayRepository::findAll)
+                                .exchange((exchange) -> {
+                                    long userId = exchange.getIn().getHeader("userId", long.class);
+                                    return songPlayRepositoryCustom.getUserSongPlays(userId);
+                                })
                         .endRest();
     }
 

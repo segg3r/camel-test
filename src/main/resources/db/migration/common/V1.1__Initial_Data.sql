@@ -1,0 +1,1 @@
+insert into "user"(id, email) values (1, 'segg3r@gmail.com')

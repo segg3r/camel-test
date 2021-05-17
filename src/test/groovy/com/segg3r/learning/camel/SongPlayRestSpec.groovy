@@ -1,11 +1,12 @@
 package com.segg3r.learning.camel
 
 import com.segg3r.learning.camel.model.SongPlay
+import com.segg3r.learning.camel.model.UserSongPlays
+import com.segg3r.learning.camel.repository.SongPlayRepositoryCustom
 import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
-import org.springframework.http.ResponseEntity
 import org.springframework.test.context.ActiveProfiles
 import spock.lang.Specification
 
@@ -16,7 +17,7 @@ class SongPlayRestSpec extends Specification {
     @Autowired
     private TestRestTemplate testRestTemplate
     @Autowired
-    private SongPlayRepository songPlayRepository
+    private SongPlayRepositoryCustom songPlayRepository
     @Autowired
     private Flyway flyway
 
@@ -29,26 +30,27 @@ class SongPlayRestSpec extends Specification {
         given: "payload with arbitrary fields"
         def payload = new SongPlay()
         payload.songId = 1L
-        payload.userId = 2L
+        payload.userId = 1L
         payload.durationMs = 3000L
 
         when: "song play event is sent to API"
         testRestTemplate.postForEntity("/api/song_play", payload, SongPlay.class)
 
-        then: "getting list of events should contain a sent event"
-        def responseEntity = testRestTemplate.getForEntity("/api/song_play", SongPlay[].class)
-        def songPlays = responseEntity.getBody()
+        then: "getting list of user song plays should contain a sent event"
+        def responseEntity = testRestTemplate.getForEntity("/api/song_play/user/1", UserSongPlays.class)
+        def userSongPlays = responseEntity.getBody()
 
         expect: "Single song play event should be present"
-        with(songPlays) {
+        with(userSongPlays) {
             it != null
-            it.length == 1
+            it.email == 'segg3r@gmail.com'
+            it.songPlays.size() == 1
         }
 
         and: "Song play event fields should be correctly populated when sent to API"
-        with(songPlays[0]) {
+        with(userSongPlays.songPlays[0]) {
             songId == 1L
-            userId == 2L
+            userId == 1L
             durationMs == 3000L
             id > 0
             reviewText != null

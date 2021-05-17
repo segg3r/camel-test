@@ -1,9 +1,4 @@
 --------------------------------------------------------
---  DDL for Sequence SONG_PLAY_SEQ
---------------------------------------------------------
-
-CREATE SEQUENCE  "SONG_PLAY_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 701 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  GLOBAL ;
---------------------------------------------------------
 --  DDL for Table QRTZ_BLOB_TRIGGERS
 --------------------------------------------------------
 
@@ -199,23 +194,7 @@ CREATE TABLE "QRTZ_TRIGGERS"
     LOB ("JOB_DATA") STORE AS SECUREFILE (
     TABLESPACE ${tablespace} ENABLE STORAGE IN ROW CHUNK 8192
     NOCACHE LOGGING  NOCOMPRESS  KEEP_DUPLICATES ) ;
---------------------------------------------------------
---  DDL for Table SONG_PLAY
---------------------------------------------------------
 
-CREATE TABLE "SONG_PLAY"
-(	"ID" NUMBER(19,0),
-     "DURATION_MS" NUMBER(19,0),
-     "SONG_ID" NUMBER(19,0),
-     "USER_ID" NUMBER(19,0),
-     "REVIEW_TEXT" VARCHAR2(255 CHAR)
-) SEGMENT CREATION IMMEDIATE
-    PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255
-    NOCOMPRESS LOGGING
-    STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-    PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-    BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-    TABLESPACE ${tablespace} ;
 --------------------------------------------------------
 --  DDL for Index IDX_QRTZ_T_C
 --------------------------------------------------------
@@ -518,17 +497,7 @@ ALTER TABLE "QRTZ_LOCKS" ADD CONSTRAINT "QRTZ_LOCKS_PK" PRIMARY KEY ("SCHED_NAME
         PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
         BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
         TABLESPACE ${tablespace}  ENABLE;
---------------------------------------------------------
---  Constraints for Table SONG_PLAY
---------------------------------------------------------
 
-ALTER TABLE "SONG_PLAY" MODIFY ("ID" NOT NULL ENABLE);
-ALTER TABLE "SONG_PLAY" ADD PRIMARY KEY ("ID")
-    USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255
-        STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-        PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-        BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-        TABLESPACE ${tablespace}  ENABLE;
 --------------------------------------------------------
 --  Constraints for Table QRTZ_JOB_DETAILS
 --------------------------------------------------------

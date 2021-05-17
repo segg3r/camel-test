@@ -2,6 +2,7 @@ package com.segg3r.learning.camel;
 
 import com.segg3r.learning.camel.exception.BusinessException;
 import com.segg3r.learning.camel.model.SongPlay;
+import com.segg3r.learning.camel.repository.SongPlayRepository;
 import lombok.AllArgsConstructor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsMessage;

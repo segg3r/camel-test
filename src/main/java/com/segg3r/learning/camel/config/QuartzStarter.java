@@ -1,4 +1,4 @@
-package com.segg3r.learning.camel.model;
+package com.segg3r.learning.camel.config;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;

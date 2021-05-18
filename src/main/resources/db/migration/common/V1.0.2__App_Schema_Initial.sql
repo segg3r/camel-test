@@ -21,3 +21,5 @@ CREATE TABLE "song_play"
          FOREIGN KEY (user_id)
              REFERENCES "user"(id)
 ) TABLESPACE ${tablespace} ;
+
+create index "song_play_user_idx" on "song_play"(user_id);

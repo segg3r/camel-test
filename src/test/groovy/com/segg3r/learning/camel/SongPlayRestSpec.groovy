@@ -50,9 +50,6 @@ class SongPlayRestSpec extends Specification {
         and: "Song play event fields should be correctly populated when sent to API"
         with(userSongPlays.songPlays[0]) {
             songId == 1L
-            userId == 1L
-            durationMs == 3000L
-            id > 0
             reviewText != null
         }
     }

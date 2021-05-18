@@ -31,10 +31,10 @@ public class SongPlayRest extends RouteBuilder {
                 .apiProperty("api.version", "1.0")
                 .component("servlet");
 
-        onException(BeanValidationException.class)
+        onException(Exception.class)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple(String.valueOf(BAD_REQUEST.value())))
                 .setBody(simple("${exception.message}"))
-                .log("Rest endpoint bean validation failed: ${body.toString()}")
+                .log("Rest endpoint call failed: ${body.toString()}")
                 .handled(true)
                 .end();
 

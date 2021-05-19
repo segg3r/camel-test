@@ -1,6 +1,5 @@
 package com.segg3r.learning.camel;
 
-import com.segg3r.learning.camel.exception.BusinessException;
 import com.segg3r.learning.camel.model.SongPlay;
 import com.segg3r.learning.camel.repository.SongPlayRepository;
 import lombok.AllArgsConstructor;
@@ -18,8 +17,8 @@ public class SongPlayProcessor extends RouteBuilder {
 
     @Override
     public void configure() {
-        onException(BusinessException.class)
-                .routeId("business_exception")
+        onException(Exception.class)
+                .routeId("song_play_exception")
                 .handled(true)
                 .maximumRedeliveries(0)
                 .wireTap("direct:exception_jms_dead_letter_queue")
@@ -31,6 +30,13 @@ public class SongPlayProcessor extends RouteBuilder {
                 .log("Sending a message to a dead letter queue: ${body.toString()}")
                 .to("jms:queue:dead?messageConverter=#jmsJsonMessageConverter")
                 .end();
+
+        from("direct:create_song_play_start")
+                .removeHeaders("*")
+                .removeProperties("*")
+                .transform()
+                .body(SongPlay.class)
+                .wireTap("jms:queue:song_plays?messageConverter=#jmsJsonMessageConverter");
 
         from("jms:queue:song_plays?messageConverter=#jmsJsonMessageConverter")
                 .routeId("song-play-processor")

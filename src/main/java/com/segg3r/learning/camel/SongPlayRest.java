@@ -4,7 +4,6 @@ import com.segg3r.learning.camel.model.SongPlay;
 import com.segg3r.learning.camel.repository.SongPlayRepositoryCustom;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.bean.validator.BeanValidationException;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,7 +51,7 @@ public class SongPlayRest extends RouteBuilder {
                                 .to("bean-validator://_")
                                 .log("REST sent a new song play: ${body.toString()}")
                                 .removeHeaders("Camel*")
-                                .wireTap("jms:queue:song_plays?messageConverter=#jmsJsonMessageConverter")
+                                .to("direct:create_song_play_start")
                                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple(String.valueOf(ACCEPTED.value())))
                                 .transform(constant(null))
                         .endRest()
